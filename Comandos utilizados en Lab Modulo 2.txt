@@ -1,0 +1,47 @@
+Practica 1 Gestión de Repositorios y Paquetes
+sudo apt update 
+sudo apt upgrade -y
+grep ^deb /etc/apt/sources.list /etc/apt/sources.list.d/* 
+apt search bashtop
+sudo apt install bashtop -y
+bashtop
+sudo apt purge bashtop -y
+sudo apt autoremove -y
+sudo apt autoclean
+dpkg -l | grep bashtop
+================================================================================
+Practica 2 Automatización de Tareas cron y at
+sudo crontab -e
+0 23 * * * apt update -y && apt upgrade -y
+sudo crontab -l
+sudo crontab -e
+0 3 * * 0 /sbin/shutdown -r now
+sudo crontab -l
+sudo systemctl enable --now atd
+ls /tmp
+echo "sudo rm -rf /tmp/*" | at now + 1 minute
+atq
+ls /tmp
+=================================================================================
+Practica 3 Gestión de Discos y Montaje en Ubuntu
+sudo fdisk -l
+sudo fdisk /dev/sdb
+n        ← (nueva partición)
+p        ← (partición primaria)
+1        ← (número de partición)
+Enter    ← (inicio por defecto)
+Enter    ← (usar todo el espacio)
+w        ← (guardar y salir)
+sudo mkfs.ext4 /dev/sdb1
+mkdir ~/Escritorio/Disco20GB
+sudo mount /dev/sdb1 ~/Escritorio/Disco20GB
+df -h
+cd ~/Escritorio/Disco20GB
+sudo touch AdrianAlcantara.txt
+ls
+cd ~
+sudo umount /dev/sdb1
+df -h
+cd /mnt
+ls
+
