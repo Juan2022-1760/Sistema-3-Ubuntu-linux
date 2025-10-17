@@ -1,0 +1,39 @@
+Práctica 1 – Configuración del GRUB y Recuperación del Usuario Root
+sudo nano /etc/default/grub
+sudo update-grub
+sudo reboot
+mount -o rw,remount /
+passwd root
+exit
+reboot
+
+Práctica 2 – Creación de Scripts en Bash
+cd ~
+nano backup_home.sh
+
+#! /Bin/bash
+
+Fecha="$(date  +"%d-%m-%Y_%H_%M")"
+
+tar -czvf "Backup_$FECHA.tar.gz" "home/Ubuntu"
+
+echo "Creado un archivo de backup llamado Backup_$FECHA.tar.gz que comprime la ruta $HOME, Creado en el directorio $PWD"
+
+chmod +x backup_home.sh
+./backup_home.sh
+
+Practica 3 - Configuración de SSH y autenticación con llaves
+ifconfig
+ping 192.168.100.222
+sudo apt update
+sudo apt install openssh-server -y
+sudo systemctl enable ssh
+sudo systemctl start ssh
+sudo systemctl status ssh
+ssh juan-2022-17602@192.168.100.222
+ssh-keygen
+mkdir -p ~/.ssh
+cat ~/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+rm ~/id_rsa.pub
