@@ -1,0 +1,48 @@
+Practica 1
+sudo apt update
+sudo apt install gnupg2 -y
+gpg --version
+mkdir ~/practica_cifrado
+cd ~/practica_cifrado
+echo "Este es un archivo secreto para la práctica 1" > secreto.txt
+cat secreto.txt
+gpg2 -c secreto.txt
+cat secreto.txt.gpg
+gpg2 -d secreto.txt.gpg
+ls
+cat secreto.txt.gpg
+gpg2 -d secreto.txt.gpg
+gpg2 -d secreto.txt.gpg > secreto_descifrado.txt
+cat secreto_descifrado.txt
+
+Practica 2
+sudo apt install apache2 vsftpd openssh-server -y
+sudo systemctl status apache2
+sudo systemctl status vsftpd
+sudo systemctl status ssh
+sudo iptables -L -n -v
+sudo iptables -A INPUT -p tcp --dport 80 -j DROP
+sudo iptables -A INPUT -p tcp --dport 21 -j DROP
+sudo iptables -A INPUT -p tcp --dport 22 -j DROP
+sudo iptables -L -n -v
+curl localhost 
+ftp localhost 
+ssh localhost
+sudo iptables -D INPUT -p tcp --dport 80 -j DROP
+sudo iptables -D INPUT -p tcp --dport 21 -j DROP
+sudo iptables -D INPUT -p tcp --dport 22 -j DROP
+sudo iptables -L -n -v
+curl localhost
+ftp localhost
+ssh localhost
+sudo apt install ufw -y
+sudo ufw enable
+sudo ufw status verbose
+sudo ufw deny 80/tcp
+sudo ufw deny 21/tcp
+sudo ufw deny 22/tcp
+sudo ufw status numbered
+sudo ufw allow 80/tcp
+sudo ufw allow 21/tcp
+sudo ufw allow 22/tcp
+sudo ufw status
