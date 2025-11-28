@@ -1,0 +1,85 @@
+Practica 1: Instalación y conf de Docker
+========================================================================================================================
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io -y
+sudo systemctl status docker
+sudo docker pull nginx
+mkdir -p /home/website
+cd /home/website
+nano index.html
+<html>
+    <head>
+        <title>Página Web de Juan</title>
+    </head>
+    <body>
+        <h1>Bienvenido a mi sitio web con Docker + NGINX</h1>
+    </body>
+</html>
+sudo docker rm -f webjuan
+sudo docker run -d --name webjuan \
+ -p 8888:80 \
+ -v /home/website:/usr/share/nginx/html \
+ nginx
+sudo docker ps
+
+Practica 2: Instalacion de Portainer
+==================================================================================================================
+sudo docker pull portainer/portainer-ce
+sudo docker run -d \
+  --name portainer \
+  -p 9443:9443 \
+  -p 8000:8000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  portainer/portainer-ce
+sudo docker ps
+
+Practica 3: IDespliegue de contenedor de Wordpress utilizando Docker-Compose
+===============================================================================================================
+sudo apt update
+sudo apt install docker-compose -y
+docker-compose --version
+mkdir ~/wordpress
+cd ~/wordpress
+nano docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: wp_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wp_app
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  wp_data:
+
+sudo docker-compose up -d
+sudo docker ps
