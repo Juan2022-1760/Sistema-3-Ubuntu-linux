@@ -1,0 +1,22 @@
+Practica #1 Instalacion de Webmin
+====================================================================
+sudo apt install wget apt-transport-https -y
+
+wget -qO- http://www.webmin.com/jcameron-key.asc | sudo apt-key add -
+
+sudo sh -c 'echo "deb http://download.webmin.com/download/repository sarge contrib" > /etc/apt/sources.list.d/webmin.list'
+
+sudo apt update
+
+sudo rm /etc/apt/sources.list.d/webmin.list
+sudo apt update
+
+sudo apt install wget apt-transport-https software-properties-common -y
+
+wget https://sourceforge.net/projects/webadmin/files/webmin/2.105/webmin_2.105_all.deb
+
+sudo dpkg -i webmin_2.105_all.deb
+
+sudo apt --fix-broken install -y
+
+sudo systemctl status webmin
